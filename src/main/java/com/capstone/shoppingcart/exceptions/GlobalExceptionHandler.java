@@ -1,4 +1,4 @@
-package com.springtutorial.springapistarter.exceptions;
+package com.capstone.shoppingcart.exceptions;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
