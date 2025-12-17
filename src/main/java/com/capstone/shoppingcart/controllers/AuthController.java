@@ -3,7 +3,7 @@ package com.capstone.shoppingcart.controllers;
 import com.capstone.shoppingcart.dtos.AuthResponse;
 import com.capstone.shoppingcart.dtos.LoginRequest;
 import com.capstone.shoppingcart.dtos.RegisterRequest;
-import com.capstone.shoppingcart.services.AuthService;
+import com.capstone.shoppingcart.services.auth.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

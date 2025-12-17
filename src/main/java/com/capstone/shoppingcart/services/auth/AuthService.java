@@ -1,4 +1,4 @@
-package com.capstone.shoppingcart.services;
+package com.capstone.shoppingcart.services.auth;
 
 import com.capstone.shoppingcart.dtos.AuthResponse;
 import com.capstone.shoppingcart.dtos.LoginRequest;
@@ -32,6 +32,11 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * User signup
+     * @param request - RegisterRequest containing username, email, and password
+     * @return AuthResponse with JWT token
+     */
     public AuthResponse signup(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
@@ -63,6 +68,11 @@ public class AuthService {
                 .build();
     }
 
+    /**
+     * User signin
+     * @param request - LoginRequest containing email and password
+     * @return AuthResponse with JWT token
+     */
     public AuthResponse signin(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

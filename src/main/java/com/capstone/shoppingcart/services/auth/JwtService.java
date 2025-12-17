@@ -1,4 +1,4 @@
-package com.capstone.shoppingcart.services;
+package com.capstone.shoppingcart.services.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,7 @@ public class JwtService {
     
     @Value("${jwt.secret}")
     private String secretKey;
-    
+
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 

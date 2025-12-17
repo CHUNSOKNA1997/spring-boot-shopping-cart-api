@@ -1,6 +1,6 @@
 package com.capstone.shoppingcart.security;
 
-import com.capstone.shoppingcart.services.JwtService;
+import com.capstone.shoppingcart.services.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
