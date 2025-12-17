@@ -15,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CartResponseDto {
     private UUID id;
+    private UUID userId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<CartItemDto> cartItems;
