@@ -57,4 +57,16 @@ public class CartController {
         CartResponseDto cart = cartService.updateCartItemQuantity(user, itemId, request);
         return ResponseEntity.ok(cart);
     }
+
+    @DeleteMapping("/items/{itemId}")
+    public ResponseEntity<CartResponseDto> removeItemFromCart(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long itemId) {
+        
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        CartResponseDto cart = cartService.removeItemFromCart(user, itemId);
+        return ResponseEntity.ok(cart);
+    }
 }

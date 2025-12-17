@@ -101,6 +101,38 @@ public class CartService {
         return cartMapper.toDto(savedCart);
     }
 
+    /**
+     * Remove item from cart
+     * @param user - The authenticated user
+     * @param itemId - The cart item ID to remove
+     * @return Updated cart without the removed item
+     */
+    @Transactional
+    public CartResponseDto removeItemFromCart(User user, Long itemId) {
+        // 1. Find the cart item
+        CartItem cartItem = cartItemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Cart item not found"));
+        
+        // 2. Verify item belongs to user's cart (security check)
+        if (!cartItem.getCart().getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Cart item not found");
+        }
+        
+        // 3. Get cart and remove item
+        Cart cart = cartItem.getCart();
+        cart.getCartItems().remove(cartItem);
+        
+        // 4. Delete cart item from database
+        cartItemRepository.delete(cartItem);
+        
+        // 5. Update cart timestamp
+        cart.setUpdatedAt(LocalDateTime.now());
+        
+        // 6. Save and return updated cart
+        Cart savedCart = cartRepository.save(cart);
+        return cartMapper.toDto(savedCart);
+    }
+
     private Cart createNewCart(User user) {
         Cart cart = new Cart();
         cart.setUser(user);
