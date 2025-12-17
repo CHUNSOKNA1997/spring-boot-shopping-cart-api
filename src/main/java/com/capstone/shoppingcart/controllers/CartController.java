@@ -1,15 +1,15 @@
 package com.capstone.shoppingcart.controllers;
 
+import com.capstone.shoppingcart.dtos.AddItemToCartRequest;
 import com.capstone.shoppingcart.dtos.CartResponseDto;
 import com.capstone.shoppingcart.entities.User;
 import com.capstone.shoppingcart.repositories.UserRepository;
 import com.capstone.shoppingcart.services.CartService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/carts")
@@ -29,6 +29,18 @@ public class CartController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         CartResponseDto cart = cartService.getOrCreateCart(user);
+        return ResponseEntity.ok(cart);
+    }
+
+    @PostMapping("/items")
+    public ResponseEntity<CartResponseDto> addItemToCart(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid @RequestBody AddItemToCartRequest request) {
+        
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        CartResponseDto cart = cartService.addItemToCart(user, request);
         return ResponseEntity.ok(cart);
     }
 }
