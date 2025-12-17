@@ -2,6 +2,7 @@ package com.capstone.shoppingcart.controllers;
 
 import com.capstone.shoppingcart.dtos.AddItemToCartRequest;
 import com.capstone.shoppingcart.dtos.CartResponseDto;
+import com.capstone.shoppingcart.dtos.UpdateCartItemRequest;
 import com.capstone.shoppingcart.entities.User;
 import com.capstone.shoppingcart.repositories.UserRepository;
 import com.capstone.shoppingcart.services.CartService;
@@ -41,6 +42,19 @@ public class CartController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         CartResponseDto cart = cartService.addItemToCart(user, request);
+        return ResponseEntity.ok(cart);
+    }
+
+    @PutMapping("/items/{itemId}")
+    public ResponseEntity<CartResponseDto> updateCartItemQuantity(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long itemId,
+            @Valid @RequestBody UpdateCartItemRequest request) {
+        
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        CartResponseDto cart = cartService.updateCartItemQuantity(user, itemId, request);
         return ResponseEntity.ok(cart);
     }
 }

@@ -2,6 +2,7 @@ package com.capstone.shoppingcart.services;
 
 import com.capstone.shoppingcart.dtos.AddItemToCartRequest;
 import com.capstone.shoppingcart.dtos.CartResponseDto;
+import com.capstone.shoppingcart.dtos.UpdateCartItemRequest;
 import com.capstone.shoppingcart.entities.Cart;
 import com.capstone.shoppingcart.entities.CartItem;
 import com.capstone.shoppingcart.entities.Product;
@@ -32,6 +33,11 @@ public class CartService {
         this.cartMapper = cartMapper;
     }
 
+    /**
+     * Get user's cart or create new one if doesn't exist
+     * @param user - The authenticated user
+     * @return CartResponseDto containing cart details and items
+     */
     public CartResponseDto getOrCreateCart(User user) {
         Cart cart = cartRepository.findByUser(user)
                 .orElseGet(() -> createNewCart(user));
@@ -39,6 +45,12 @@ public class CartService {
         return cartMapper.toDto(cart);
     }
 
+    /**
+     * Add item to cart
+     * @param user - The authenticated user
+     * @param request - Contains productId and quantity to add
+     * @return Updated cart with the added item
+     */
     @Transactional
     public CartResponseDto addItemToCart(User user, AddItemToCartRequest request) {
         Cart cart = cartRepository.findByUser(user)
@@ -61,6 +73,31 @@ public class CartService {
         
         Cart savedCart = cartRepository.save(cart);
         
+        return cartMapper.toDto(savedCart);
+    }
+
+    /**
+     * Update cart item quantity
+     * @param user - The authenticated user
+     * @param itemId - The cart item ID to update
+     * @param request - Contains new quantity
+     * @return Updated cart
+     */
+    @Transactional
+    public CartResponseDto updateCartItemQuantity(User user, Long itemId, UpdateCartItemRequest request) {
+        CartItem cartItem = cartItemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Cart item not found"));
+
+        if (!cartItem.getCart().getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Cart item not found");
+        }
+
+        cartItem.setQuantity(request.getQuantity());
+
+        Cart cart = cartItem.getCart();
+        cart.setUpdatedAt(LocalDateTime.now());
+
+        Cart savedCart = cartRepository.save(cart);
         return cartMapper.toDto(savedCart);
     }
 
