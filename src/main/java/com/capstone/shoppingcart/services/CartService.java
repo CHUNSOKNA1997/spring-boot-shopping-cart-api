@@ -6,7 +6,6 @@ import com.capstone.shoppingcart.entities.Cart;
 import com.capstone.shoppingcart.entities.CartItem;
 import com.capstone.shoppingcart.entities.Product;
 import com.capstone.shoppingcart.entities.User;
-import com.capstone.shoppingcart.mappers.CartItemMapper;
 import com.capstone.shoppingcart.mappers.CartMapper;
 import com.capstone.shoppingcart.repositories.CartItemRepository;
 import com.capstone.shoppingcart.repositories.CartRepository;
@@ -22,18 +21,15 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
     private final CartMapper cartMapper;
-    private final CartItemMapper cartItemMapper;
     
     public CartService(CartRepository cartRepository, 
                       CartItemRepository cartItemRepository,
                       ProductRepository productRepository,
-                      CartMapper cartMapper,
-                      CartItemMapper cartItemMapper) {
+                      CartMapper cartMapper) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
         this.cartMapper = cartMapper;
-        this.cartItemMapper = cartItemMapper;
     }
 
     public CartResponseDto getOrCreateCart(User user) {
@@ -57,7 +53,7 @@ public class CartService {
         if (cartItem != null) {
             cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
         } else {
-            cartItem = cartItemMapper.toEntity(request, cart, product);
+            cartItem = CartItem.createNew(cart, product, request.getQuantity());
             cart.getCartItems().add(cartItem);
         }
         

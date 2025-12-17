@@ -29,4 +29,14 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+    
+    // Static factory method - Industry standard pattern
+    public static CartItem createNew(Cart cart, Product product, Integer quantity) {
+        return CartItem.builder()
+                .cart(cart)
+                .product(product)
+                .quantity(quantity)
+                .price(product.getPrice())
+                .build();
+    }
 }
