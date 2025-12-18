@@ -37,16 +37,12 @@ public class ProductController {
         Page<ProductResponseDto> products;
 
         if (categoryId != null && search != null) {
-            // Search within a category
             products = productService.searchProductsByCategory(categoryId, search, pageable);
         } else if (categoryId != null) {
-            // Filter by category only
             products = productService.getProductsByCategory(categoryId, pageable);
         } else if (search != null) {
-            // Search all products
             products = productService.searchProducts(search, pageable);
         } else {
-            // Get all products
             products = productService.getAllProducts(pageable);
         }
 
