@@ -1,0 +1,29 @@
+package com.capstone.shoppingcart.dtos;
+
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UpdateAddressRequest {
+    
+    @Size(max = 255, message = "Street must not exceed 255 characters")
+    private String street;
+    
+    @Size(max = 100, message = "City must not exceed 100 characters")
+    private String city;
+    
+    @Size(max = 100, message = "State must not exceed 100 characters")
+    private String state;
+    
+    @Size(max = 20, message = "Zip code must not exceed 20 characters")
+    private String zipCode;
+    
+    @Size(max = 100, message = "Country must not exceed 100 characters")
+    private String country;
+    
+    private Boolean isDefault;
+}
