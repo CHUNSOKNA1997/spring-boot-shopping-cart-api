@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/customer/v1/auth/**").permitAll()
                         .requestMatchers("/api/customer/v1/products/**").permitAll()
+                        .requestMatchers("/api/customer/v1/categories/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
