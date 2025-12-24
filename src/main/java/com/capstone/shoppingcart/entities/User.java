@@ -1,5 +1,6 @@
 package com.capstone.shoppingcart.entities;
 
+import com.capstone.shoppingcart.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UserRole role = UserRole.CUSTOMER;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
