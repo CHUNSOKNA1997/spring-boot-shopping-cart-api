@@ -16,6 +16,6 @@ import java.util.UUID;
 public class WishListResponseDto {
     private UUID id;
     private UUID userId;
-    private List<ProductDto> products;
+    private List<ProductResponseDto> products;
     private LocalDateTime createdAt;
 }
