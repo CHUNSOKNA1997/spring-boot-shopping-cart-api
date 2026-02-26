@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/customer/v1/auth/**").permitAll()
                         .requestMatchers("/api/customer/v1/products/**").permitAll()
                         .requestMatchers("/api/customer/v1/categories/**").permitAll()
+                        .requestMatchers("/api/customer/v1/promotions/**").permitAll()
                         
                         // Admin endpoints - require ADMIN role
                         .requestMatchers("/api/admin/v1/**").hasRole("ADMIN")
