@@ -55,3 +55,9 @@ jwt:
   # 86400000 ms = 24 hours
   # 3600000 ms = 1 hour
   expiration: 86400000
+
+# Application Features
+app:
+  seed:
+    # Set to false to disable startup data seeding
+    enabled: true
